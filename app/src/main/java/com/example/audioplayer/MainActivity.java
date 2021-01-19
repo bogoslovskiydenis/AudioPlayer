@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         permission();
         
-        initView();
+      //  initView();
         
     }
 
@@ -45,7 +45,10 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
         }
         else {
-            Toast.makeText(this, "Разрешение получено!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Разрешение получено!", Toast.LENGTH_SHORT).show();
+
+            musicFiles = getAllAudio(this);
+            initView();
         }
     }
 
@@ -53,13 +56,16 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == REQUEST_CODE){
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(this, "Разрешение получено!", Toast.LENGTH_SHORT).show();
-
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+               // Toast.makeText(this, "Разрешение получено!", Toast.LENGTH_SHORT).show();
+                musicFiles = getAllAudio(this);
+                initView();
             }
             else {
                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
-                musicFiles = getAllAudio(this);
+
+
             }
         }
     }
