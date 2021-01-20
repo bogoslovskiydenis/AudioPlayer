@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,25 +25,24 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final int REQUEST_CODE =1;
-    ArrayList<MusicFiles> musicFiles;
+    public static final int REQUEST_CODE = 1;
+   public static ArrayList<MusicFiles> musicFiles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         permission();
-        
-      //  initView();
-        
+
+        //  initView();
+
     }
 
     private void permission() {
 
-        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
-        }
-        else {
+        } else {
             //Toast.makeText(this, "Разрешение получено!", Toast.LENGTH_SHORT).show();
 
             musicFiles = getAllAudio(this);
@@ -55,14 +53,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == REQUEST_CODE){
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            {
-               // Toast.makeText(this, "Разрешение получено!", Toast.LENGTH_SHORT).show();
+        if (requestCode == REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Toast.makeText(this, "Разрешение получено!", Toast.LENGTH_SHORT).show();
                 musicFiles = getAllAudio(this);
                 initView();
-            }
-            else {
+            } else {
                 ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
 
 
@@ -80,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    public static ArrayList<MusicFiles> getAllAudio (Context context){
+    public static ArrayList<MusicFiles> getAllAudio(Context context) {
         ArrayList<MusicFiles> audioList = new ArrayList<>();
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         String[] projection = {
@@ -93,18 +89,18 @@ public class MainActivity extends AppCompatActivity {
         };
 
         Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
-        if(cursor != null){
-            while (cursor.moveToNext()){
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
                 String album = cursor.getString(0);
                 String title = cursor.getString(1);
                 String duration = cursor.getString(2);
                 String path = cursor.getString(3);
                 String artist = cursor.getString(4);
 
-                MusicFiles musicFiles = new MusicFiles(path, title ,artist, album, duration );
+                MusicFiles musicFiles = new MusicFiles(path, title, artist, album, duration);
 
                 //log
-                Log.e("PATH:"+ path, "Albums:" + album);
+                Log.e("PATH:" + path, "Albums:" + album);
                 audioList.add(musicFiles);
             }
             cursor.close();
