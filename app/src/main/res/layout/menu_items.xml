@@ -11,14 +11,14 @@
         android:id="@+id/music_img"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:background="@drawable/ic_launcher_background"
+        android:src="@mipmap/ic_launcher_round"
         android:padding="5dp"
         />
     <TextView
         android:id="@+id/music_file_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="File Name"
+        android:text="@string/song_name"
         android:layout_toEndOf="@id/music_img"
         android:layout_marginStart="10dp"
         android:textColor="@color/colorAccent"
