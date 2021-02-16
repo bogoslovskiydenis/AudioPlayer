@@ -1,6 +1,7 @@
 package com.example.audioplayer.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.audioplayer.PlayerActivity;
 import com.example.audioplayer.R;
 import com.example.audioplayer.model.MusicFiles;
 
@@ -48,6 +50,15 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
         else {
             Glide.with(musicContext).load(R.drawable.eminem_kamikaze).into(holder.album_art);       //Если нет то берем картинку
         }
+
+        //при нажатии показывает PlayerActivity
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(musicContext , PlayerActivity.class);
+                musicContext.startActivity(intent);
+            }
+        });
     }
 
     @Override

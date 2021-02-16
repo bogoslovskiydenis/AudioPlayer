@@ -35,7 +35,6 @@
             android:layout_marginEnd="5dp"
             android:layout_toStartOf="@id/menu_btn"
             android:layout_toEndOf="@id/back_btn"
-            android:background="color/color/transparent"
             android:gravity="center_horizontal"
             android:text="Now Playing"
             android:textColor="@color/colorAccent"
@@ -115,7 +114,8 @@
         android:layout_height="60dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp">
 
         <ImageView
             android:id="@+id/id_shuffle"
@@ -133,34 +133,33 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="20dp"
             android:layout_toStartOf="@id/play_pause"
             android:padding="5dp"
             android:src="@drawable/ic_skip_previous"
-            app:tint="@color/colorAccent"
-            android:layout_marginEnd="20dp"/>
+            app:tint="@color/colorAccent" />
 
         <ImageView
             android:id="@+id/id_next"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
             android:layout_toEndOf="@id/play_pause"
             android:padding="5dp"
-            android:layout_marginStart="20dp"
             android:src="@drawable/ic_skip_next"
-            app:tint="@color/colorAccent"
-            />
+            app:tint="@color/colorAccent" />
+
         <ImageView
             android:id="@+id/id_repeat_off"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:padding="5dp"
-            android:layout_marginEnd="32dp"
-            android:src="@drawable/ic_repeat_off"
-            app:tint="@color/colorAccent"
             android:layout_alignParentEnd="true"
-            />
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="32dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_repeat_off"
+            app:tint="@color/colorAccent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/play_pause"
@@ -172,6 +171,46 @@
             android:src="@drawable/ic_play"
             app:backgroundTint="#FFFFFF"
             app:rippleColor="@color/white" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/seek_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_above="@id/relative_layout_for_bottom"
+        android:layout_marginBottom="10dp"
+        >
+
+        <TextView
+            android:id="@+id/durationPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:text="0:0"
+            android:textColor="@color/colorAccent"
+            android:layout_alignParentStart="true"/>
+        <TextView
+            android:id="@+id/durationTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="5dp"
+            android:text="0:00"
+            android:textColor="@color/colorAccent"
+            android:layout_alignParentEnd="true"/>
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
+            android:thumbTint="@color/white"
+            />
 
     </RelativeLayout>
 
