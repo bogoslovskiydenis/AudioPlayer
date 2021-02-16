@@ -151,7 +151,7 @@
             app:tint="@color/colorAccent" />
 
         <ImageView
-            android:id="@+id/id_repeat_off"
+            android:id="@+id/id_repeat"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
@@ -179,27 +179,27 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_above="@id/relative_layout_for_bottom"
-        android:layout_marginBottom="10dp"
-        >
+        android:layout_marginBottom="10dp">
 
         <TextView
             android:id="@+id/durationPlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:text="0:0"
-            android:textColor="@color/colorAccent"
-            android:layout_alignParentStart="true"/>
+            android:textColor="@color/colorAccent" />
+
         <TextView
             android:id="@+id/durationTotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
             android:text="0:00"
-            android:textColor="@color/colorAccent"
-            android:layout_alignParentEnd="true"/>
+            android:textColor="@color/colorAccent" />
 
         <SeekBar
             android:id="@+id/seekBar"
@@ -209,8 +209,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="10dp"
-            android:thumbTint="@color/white"
-            />
+            android:thumbTint="@color/white" />
 
     </RelativeLayout>
 
