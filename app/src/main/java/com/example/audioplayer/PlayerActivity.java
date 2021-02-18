@@ -2,6 +2,7 @@ package com.example.audioplayer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.audioplayer.model.MusicFiles;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -35,7 +37,10 @@ public class PlayerActivity extends AppCompatActivity {
 
         initViews();
         getIntentMethod();
-
+        //получаем имя песни
+        song_name.setText(listSongs.get(position).getTitle());
+        //имя исполнителя
+        artist_name.setText(listSongs.get(position).getArtist());
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -98,6 +103,8 @@ public class PlayerActivity extends AppCompatActivity {
         mediaPlayer.start();
         //seekbar
         seekBar.setMax(mediaPlayer.getDuration() / 1000);
+
+        metaData(uri);
     }
 
     private void initViews() {
@@ -113,5 +120,20 @@ public class PlayerActivity extends AppCompatActivity {
         prevBtn = findViewById(R.id.id_prev);
         shuffleBtn = findViewById(R.id.id_shuffle);
         repeatBtn = findViewById(R.id.id_repeat);
+    }
+
+    private void metaData(Uri uri){
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setDataSource(uri.toString());
+        int durationTotal = Integer.parseInt(listSongs.get(position).getDuration());
+        duration_total.setText(formatTime(durationTotal));
+        //получаем картинку , если картинки нет используем стандартную
+        byte[]art = retriever.getEmbeddedPicture();
+        if (art !=null){
+            Glide.with(this).asBitmap().load(art).into(cover_art);
+        }
+        else {
+            Glide.with(this).load(R.drawable.eminem_kamikaze).into(cover_art);
+        }
     }
 }
