@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -30,6 +31,9 @@ public class PlayerActivity extends AppCompatActivity {
     static Uri uri;
     static MediaPlayer mediaPlayer;
     private Handler handler = new Handler();
+    //play pause Thread
+    private Thread playThread, prevThread, nextThread;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +75,52 @@ public class PlayerActivity extends AppCompatActivity {
                 handler.postDelayed(this, 1000);
             }
         });
+    }
+
+
+    @Override
+    protected void onPostResume() {
+        playThreadBtn();
+        nextThreadBtn();
+        prevThreadBtn();
+
+        super.onPostResume();
+    }
+
+    private void prevThreadBtn() {
+    }
+
+    private void nextThreadBtn() {
+    }
+
+    private void playThreadBtn() {
+        playThread = new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                playPauseBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        playPauseBtnClicked();
+                    }
+                });
+            }
+        };
+        playThread.start();
+    }
+    //pause
+    private void playPauseBtnClicked() {
+        if(mediaPlayer.isPlaying()){
+            playPauseBtn.setImageResource(R.drawable.ic_play);
+            mediaPlayer.pause();
+            seekBar.setMax(mediaPlayer.getDuration() / 1000);
+        }
+        //play
+        else {
+            playPauseBtn.setImageResource(R.drawable.ic_pause);
+            mediaPlayer.start();
+            seekBar.setMax(mediaPlayer.getDuration()/1000);
+        }
     }
 
     private String formatTime(int mCurrentPosition) {
@@ -123,17 +173,16 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     //get art , total duration
-    private void metaData(Uri uri){
+    private void metaData(Uri uri) {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         retriever.setDataSource(uri.toString());
         int durationTotal = Integer.parseInt(listSongs.get(position).getDuration()) / 1000;
         duration_total.setText(formatTime(durationTotal));
         //получаем картинку , если картинки нет используем стандартную
-        byte[]art = retriever.getEmbeddedPicture();
-        if (art !=null){
+        byte[] art = retriever.getEmbeddedPicture();
+        if (art != null) {
             Glide.with(this).asBitmap().load(art).into(cover_art);
-        }
-        else {
+        } else {
             Glide.with(this).load(R.drawable.eminem_kamikaze).into(cover_art);
         }
     }
