@@ -122,10 +122,11 @@ public class PlayerActivity extends AppCompatActivity {
         repeatBtn = findViewById(R.id.id_repeat);
     }
 
+    //get art , total duration
     private void metaData(Uri uri){
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         retriever.setDataSource(uri.toString());
-        int durationTotal = Integer.parseInt(listSongs.get(position).getDuration());
+        int durationTotal = Integer.parseInt(listSongs.get(position).getDuration()) / 1000;
         duration_total.setText(formatTime(durationTotal));
         //получаем картинку , если картинки нет используем стандартную
         byte[]art = retriever.getEmbeddedPicture();
