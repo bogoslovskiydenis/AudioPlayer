@@ -79,12 +79,12 @@ public class PlayerActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onPostResume() {
+    protected void onResume() {
         playThreadBtn();
         nextThreadBtn();
         prevThreadBtn();
 
-        super.onPostResume();
+        super.onResume();
     }
 
     private void prevThreadBtn() {
@@ -113,6 +113,7 @@ public class PlayerActivity extends AppCompatActivity {
             metaData(uri);
             song_name.setText(listSongs.get(position).getTitle());
             artist_name.setText(listSongs.get(position).getArtist());
+            seekBar.setMax(mediaPlayer.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -156,6 +157,7 @@ public class PlayerActivity extends AppCompatActivity {
             metaData(uri);
             song_name.setText(listSongs.get(position).getTitle());
             artist_name.setText(listSongs.get(position).getArtist());
+            seekBar.setMax(mediaPlayer.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -194,12 +196,34 @@ public class PlayerActivity extends AppCompatActivity {
             playPauseBtn.setImageResource(R.drawable.ic_play);
             mediaPlayer.pause();
             seekBar.setMax(mediaPlayer.getDuration() / 1000);
+            PlayerActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mediaPlayer != null) {
+                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                        seekBar.setProgress(mCurrentPosition);
+                        //duration_played.setText(formatTime(mCurrentPosition));
+                    }
+                    handler.postDelayed(this, 1000);
+                }
+            });
         }
         //play
         else {
             playPauseBtn.setImageResource(R.drawable.ic_pause);
             mediaPlayer.start();
             seekBar.setMax(mediaPlayer.getDuration() / 1000);
+            PlayerActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mediaPlayer != null) {
+                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                        seekBar.setProgress(mCurrentPosition);
+                        //duration_played.setText(formatTime(mCurrentPosition));
+                    }
+                    handler.postDelayed(this, 1000);
+                }
+            });
         }
     }
 
