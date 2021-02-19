@@ -1,7 +1,5 @@
 package com.example.audioplayer;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -12,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.bumptech.glide.Glide;
 import com.example.audioplayer.model.MusicFiles;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import static com.example.audioplayer.MainActivity.musicFiles;
 
-public class PlayerActivity extends AppCompatActivity {
+public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
 
     TextView song_name, artist_name, duration_played, duration_total;
     SeekBar seekBar;
@@ -45,6 +45,7 @@ public class PlayerActivity extends AppCompatActivity {
         song_name.setText(listSongs.get(position).getTitle());
         //имя исполнителя
         artist_name.setText(listSongs.get(position).getArtist());
+        mediaPlayer.setOnCompletionListener(this);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -125,8 +126,33 @@ public class PlayerActivity extends AppCompatActivity {
                     handler.postDelayed(this, 1000);
                 }
             });
+            mediaPlayer.setOnCompletionListener(this);
             playPauseBtn.setImageResource(R.drawable.ic_pause);
-            mediaPlayer.start();
+           mediaPlayer.start();
+        }else {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            position = (position - 1) < 0 ? listSongs.size() - 1 : (position -1);
+            uri = Uri.parse(listSongs.get(position).getPath());
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
+            metaData(uri);
+            song_name.setText(listSongs.get(position).getTitle());
+            artist_name.setText(listSongs.get(position).getArtist());
+            seekBar.setMax(mediaPlayer.getDuration() / 1000);
+            PlayerActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mediaPlayer != null) {
+                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                        seekBar.setProgress(mCurrentPosition);
+                        duration_played.setText(formatTime(mCurrentPosition));
+                    }
+                    handler.postDelayed(this, 1000);
+                }
+            });
+            mediaPlayer.setOnCompletionListener(this);
+            playPauseBtn.setImageResource(R.drawable.ic_pause);
+
         }
     }
 
@@ -169,10 +195,36 @@ public class PlayerActivity extends AppCompatActivity {
                     handler.postDelayed(this, 1000);
                 }
             });
+            mediaPlayer.setOnCompletionListener(this);
+            playPauseBtn.setImageResource(R.drawable.ic_pause);
+            mediaPlayer.start();
+        } else {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            position = (position + 1) % listSongs.size();
+            uri = Uri.parse(listSongs.get(position).getPath());
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
+            metaData(uri);
+            song_name.setText(listSongs.get(position).getTitle());
+            artist_name.setText(listSongs.get(position).getArtist());
+            seekBar.setMax(mediaPlayer.getDuration() / 1000);
+            PlayerActivity.this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (mediaPlayer != null) {
+                        int mCurrentPosition = mediaPlayer.getCurrentPosition() / 1000;
+                        seekBar.setProgress(mCurrentPosition);
+                        duration_played.setText(formatTime(mCurrentPosition));
+                    }
+                    handler.postDelayed(this, 1000);
+                }
+            });
+            mediaPlayer.setOnCompletionListener(this);
             playPauseBtn.setImageResource(R.drawable.ic_pause);
             mediaPlayer.start();
         }
     }
+
 
     private void playThreadBtn() {
         playThread = new Thread() {
@@ -191,7 +243,7 @@ public class PlayerActivity extends AppCompatActivity {
     }
 
     //pause
-    private void playPauseBtnClicked() {
+    private void playPauseBtnClicked()  {
         if (mediaPlayer.isPlaying()) {
             playPauseBtn.setImageResource(R.drawable.ic_play);
             mediaPlayer.pause();
@@ -224,6 +276,7 @@ public class PlayerActivity extends AppCompatActivity {
                     handler.postDelayed(this, 1000);
                 }
             });
+            playPauseBtn.setImageResource(R.drawable.ic_play);
         }
     }
 
@@ -278,6 +331,7 @@ public class PlayerActivity extends AppCompatActivity {
 
     //get art , total duration
     private void metaData(Uri uri) {
+
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         retriever.setDataSource(uri.toString());
         int durationTotal = Integer.parseInt(listSongs.get(position).getDuration()) / 1000;
@@ -290,4 +344,55 @@ public class PlayerActivity extends AppCompatActivity {
             Glide.with(this).load(R.drawable.eminem_kamikaze).into(cover_art);
         }
     }
+
+    //implements MediaPlayer.OnCompletionListener -Interface definition for a callback to be invoked when playback of a media source has completed.
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        nextBtnClicked();
+        if(mediaPlayer!=null){
+            mediaPlayer =MediaPlayer.create(getApplicationContext(), uri);
+            mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(this);
+        }
+    }
+
+//    public void ImageAnimation(Context context, ImageView imageView, Bitmap bitmap){
+//        Animation animationOut = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
+//        Animation animationIn = AnimationUtils.loadAnimation(context, android.R.anim.fade_out);
+//        animationOut.setAnimationListener(new Animation.AnimationListener() {
+//            @Override
+//            public void onAnimationStart(Animation animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animation animation) {
+//                Glide.with(context).load(bitmap).into(imageView);
+//                animationIn.setAnimationListener(new Animation.AnimationListener() {
+//                    @Override
+//                    public void onAnimationStart(Animation animation) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationEnd(Animation animation) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationRepeat(Animation animation) {
+//
+//                    }
+//                });
+//                imageView.startAnimation(animationIn);
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animation animation) {
+//
+//            }
+//        });
+//        imageView.startAnimation(animationOut);
+//    }
+
 }
