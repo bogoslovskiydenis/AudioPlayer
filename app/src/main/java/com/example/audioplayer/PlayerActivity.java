@@ -221,7 +221,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             });
             mediaPlayer.setOnCompletionListener(this);
             playPauseBtn.setImageResource(R.drawable.ic_pause);
-            mediaPlayer.start();
+
         }
     }
 
@@ -276,7 +276,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
                     handler.postDelayed(this, 1000);
                 }
             });
-            playPauseBtn.setImageResource(R.drawable.ic_play);
+            playPauseBtn.setImageResource(R.drawable.ic_pause);
         }
     }
 
