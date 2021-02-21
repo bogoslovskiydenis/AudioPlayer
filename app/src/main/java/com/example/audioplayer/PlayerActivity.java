@@ -17,8 +17,11 @@ import com.example.audioplayer.model.MusicFiles;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import static com.example.audioplayer.MainActivity.musicFiles;
+import static com.example.audioplayer.MainActivity.repeatBoolean;
+import static com.example.audioplayer.MainActivity.shuffleBoolean;
 
 public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
 
@@ -76,6 +79,32 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
                 handler.postDelayed(this, 1000);
             }
         });
+        //click shuffle btn
+        shuffleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(shuffleBoolean ){
+                    shuffleBoolean =false;
+                    shuffleBtn.setImageResource(R.drawable.ic_shuffle_off);
+                }else {
+                    shuffleBoolean =true;
+                    shuffleBtn.setImageResource(R.drawable.ic_shuffle_on);
+                }
+            }
+        });
+        //click repeat btn
+        repeatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(repeatBoolean){
+                    repeatBoolean= false ;
+                    repeatBtn.setImageResource(R.drawable.ic_repeat_off);
+                }else {
+                    repeatBoolean = true;
+                    repeatBtn.setImageResource(R.drawable.ic_repeat);
+                }
+            }
+        });
     }
 
 
@@ -108,7 +137,13 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.release();
-            position = (position - 1) < 0 ? listSongs.size() - 1 : (position -1);
+            //shuffle & repeat
+            if(shuffleBoolean && !repeatBoolean){
+                position = getRandomMusic(listSongs.size()-1);
+            }else if (!shuffleBoolean && !repeatBoolean){
+                position = (position - 1) < 0 ? listSongs.size() - 1 : (position -1);
+            }
+
             uri = Uri.parse(listSongs.get(position).getPath());
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
@@ -132,7 +167,11 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         }else {
             mediaPlayer.stop();
             mediaPlayer.release();
-            position = (position - 1) < 0 ? listSongs.size() - 1 : (position -1);
+            if(shuffleBoolean && !repeatBoolean){
+                position = getRandomMusic(listSongs.size()-1);
+            }else if (!shuffleBoolean && !repeatBoolean){
+                position = (position - 1) < 0 ? listSongs.size() - 1 : (position -1);
+            }
             uri = Uri.parse(listSongs.get(position).getPath());
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
@@ -177,7 +216,13 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.release();
-            position = (position + 1) % listSongs.size();
+            //shuffle & repeat
+            if(shuffleBoolean && !repeatBoolean){
+                position = getRandomMusic(listSongs.size()-1);
+            }else if (!shuffleBoolean && !repeatBoolean){
+                position = (position + 1) % listSongs.size();
+            }
+
             uri = Uri.parse(listSongs.get(position).getPath());
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
@@ -201,6 +246,12 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         } else {
             mediaPlayer.stop();
             mediaPlayer.release();
+            //shuffle & repeat
+            if(shuffleBoolean && !repeatBoolean){
+                position = getRandomMusic(listSongs.size()-1);
+            }else if (!shuffleBoolean && !repeatBoolean){
+                position = (position + 1) % listSongs.size();
+            }
             position = (position + 1) % listSongs.size();
             uri = Uri.parse(listSongs.get(position).getPath());
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
@@ -224,7 +275,6 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
 
         }
     }
-
 
     private void playThreadBtn() {
         playThread = new Thread() {
@@ -343,6 +393,13 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         } else {
             Glide.with(this).load(R.drawable.eminem_kamikaze).into(cover_art);
         }
+    }
+
+    //GetRandMuck
+    private int getRandomMusic(int i) {
+        Random random = new Random();
+
+        return random.nextInt(i+1);
     }
 
     //implements MediaPlayer.OnCompletionListener -Interface definition for a callback to be invoked when playback of a media source has completed.
