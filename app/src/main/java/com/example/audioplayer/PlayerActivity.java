@@ -80,29 +80,23 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             }
         });
         //click shuffle btn
-        shuffleBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(shuffleBoolean ){
-                    shuffleBoolean =false;
-                    shuffleBtn.setImageResource(R.drawable.ic_shuffle_off);
-                }else {
-                    shuffleBoolean =true;
-                    shuffleBtn.setImageResource(R.drawable.ic_shuffle_on);
-                }
+        shuffleBtn.setOnClickListener(v -> {
+            if(shuffleBoolean ){
+                shuffleBoolean =false;
+                shuffleBtn.setImageResource(R.drawable.ic_shuffle_off);
+            }else {
+                shuffleBoolean =true;
+                shuffleBtn.setImageResource(R.drawable.ic_shuffle_on);
             }
         });
         //click repeat btn
-        repeatBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(repeatBoolean){
-                    repeatBoolean= false ;
-                    repeatBtn.setImageResource(R.drawable.ic_repeat_off);
-                }else {
-                    repeatBoolean = true;
-                    repeatBtn.setImageResource(R.drawable.ic_repeat);
-                }
+        repeatBtn.setOnClickListener(v -> {
+            if(repeatBoolean){
+                repeatBoolean= false ;
+                repeatBtn.setImageResource(R.drawable.ic_repeat_off);
+            }else {
+                repeatBoolean = true;
+                repeatBtn.setImageResource(R.drawable.ic_repeat);
             }
         });
     }

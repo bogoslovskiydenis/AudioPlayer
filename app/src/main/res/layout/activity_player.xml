@@ -126,7 +126,7 @@
             android:layout_marginStart="32dp"
             android:padding="5dp"
             android:src="@drawable/ic_shuffle_off"
-            app:tint="@color/colorAccent" />
+            android:tintMode="@color/white"/>
 
         <ImageView
             android:id="@+id/id_prev"
@@ -159,7 +159,8 @@
             android:layout_marginEnd="32dp"
             android:padding="5dp"
             android:src="@drawable/ic_repeat_off"
-            app:tint="@color/colorAccent" />
+            android:tintMode="@color/white"
+            />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/play_pause"
