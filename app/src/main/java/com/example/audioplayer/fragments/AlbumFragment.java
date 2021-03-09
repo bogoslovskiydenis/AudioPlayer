@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.example.audioplayer.R;
 import com.example.audioplayer.adapter.AlbumAdapter;
 
+import static com.example.audioplayer.MainActivity.albums;
 import static com.example.audioplayer.MainActivity.musicFiles;
 
 
@@ -33,8 +34,8 @@ public class AlbumFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
-        if(!(musicFiles.size() <1)){
-            albumAdapter = new AlbumAdapter(getContext(), musicFiles);
+        if(!(albums.size() <1)){
+            albumAdapter = new AlbumAdapter(getContext(), albums);
             recyclerView.setAdapter(albumAdapter);
             recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2 ));
         }

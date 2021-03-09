@@ -23,6 +23,8 @@ import com.example.audioplayer.model.MusicFiles;
 
 import java.util.ArrayList;
 
+import static com.example.audioplayer.MainActivity.albums;
+
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder>{
 
     private final Context musicContext;
@@ -82,6 +84,7 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
     }
 
     public static ArrayList<MusicFiles> getAllAudio(Context context) {
+        ArrayList<String> duplicate =new ArrayList<>();
         ArrayList<MusicFiles> audioList = new ArrayList<>();
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         String[] projection = {
@@ -107,6 +110,10 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
                 //log
                 Log.e("PATH:" + path, "Albums:" + album);
                 audioList.add(musicFiles);
+                if(!duplicate.contains(album)) {
+                    albums.add(musicFiles);
+                    duplicate.add(album);
+                }
             }
             cursor.close();
         }
