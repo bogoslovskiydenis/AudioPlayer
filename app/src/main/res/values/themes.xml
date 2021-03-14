@@ -13,4 +13,35 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <!--Custom styles-->
+    <style name="FullScreen" parent="Theme.AudioPlayer">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="NeumorphismImageSmall">
+        <item name="neumorph_cornerFamily">rounded</item>
+        <item name="neumorph_cornerSize">@dimen/_10sdp</item>
+    </style>
+    <style name="NeumorphismImageNormal">
+        <item name="neumorph_cornerFamily">rounded</item>
+        <item name="neumorph_cornerSize">@dimen/_27sdp</item>
+    </style>
+    <style name="NeumorphismImageLarge">
+        <item name="neumorph_cornerFamily">rounded</item>
+        <item name="neumorph_cornerSize">@dimen/_32sdp</item>
+    </style>
+
+    <style name="NeumorphismCardImage">
+        <item name="neumorph_cornerFamily">rounded</item>
+        <item name="neumorph_cornerSize">@dimen/_115sdp</item>
+    </style>
+
+    <style name="NeumorphismImageOther">
+        <item name="neumorph_cornerFamily">rounded</item>
+        <item name="neumorph_cornerSize">@dimen/_8sdp</item>
+    </style>
+
 </resources>

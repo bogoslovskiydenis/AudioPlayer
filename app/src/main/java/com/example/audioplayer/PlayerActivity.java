@@ -19,6 +19,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Random;
 
+import soup.neumorphism.NeumorphFloatingActionButton;
+
 import static com.example.audioplayer.MainActivity.musicFiles;
 import static com.example.audioplayer.MainActivity.repeatBoolean;
 import static com.example.audioplayer.MainActivity.shuffleBoolean;
@@ -29,19 +31,19 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
     TextView song_name, artist_name, duration_played, duration_total;
     SeekBar seekBar;
     ImageView cover_art, nextBtn, backBtn, prevBtn, shuffleBtn, repeatBtn;
-    FloatingActionButton playPauseBtn;
+    NeumorphFloatingActionButton playPauseBtn;
     int position = -1;
     static ArrayList<MusicFiles> listSongs = new ArrayList<>();
     static Uri uri;
     static MediaPlayer mediaPlayer;
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
     //play pause Thread
     private Thread playThread, prevThread, nextThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_player);
+        setContentView(R.layout.player2);
 
         initViews();
         getIntentMethod();
@@ -82,20 +84,20 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         });
         //click shuffle btn
         shuffleBtn.setOnClickListener(v -> {
-            if(shuffleBoolean ){
-                shuffleBoolean =false;
+            if (shuffleBoolean) {
+                shuffleBoolean = false;
                 shuffleBtn.setImageResource(R.drawable.ic_shuffle_off);
-            }else {
-                shuffleBoolean =true;
+            } else {
+                shuffleBoolean = true;
                 shuffleBtn.setImageResource(R.drawable.ic_shuffle_on);
             }
         });
         //click repeat btn
         repeatBtn.setOnClickListener(v -> {
-            if(repeatBoolean){
-                repeatBoolean= false ;
+            if (repeatBoolean) {
+                repeatBoolean = false;
                 repeatBtn.setImageResource(R.drawable.ic_repeat_off);
-            }else {
+            } else {
                 repeatBoolean = true;
                 repeatBtn.setImageResource(R.drawable.ic_repeat);
             }
@@ -133,10 +135,10 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             mediaPlayer.stop();
             mediaPlayer.release();
             //shuffle & repeat
-            if(shuffleBoolean && !repeatBoolean){
-                position = getRandomMusic(listSongs.size()-1);
-            }else if (!shuffleBoolean && !repeatBoolean){
-                position = (position - 1) < 0 ? listSongs.size() - 1 : (position -1);
+            if (shuffleBoolean && !repeatBoolean) {
+                position = getRandomMusic(listSongs.size() - 1);
+            } else if (!shuffleBoolean && !repeatBoolean) {
+                position = (position - 1) < 0 ? listSongs.size() - 1 : (position - 1);
             }
 
             uri = Uri.parse(listSongs.get(position).getPath());
@@ -158,14 +160,14 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             });
             mediaPlayer.setOnCompletionListener(this);
             playPauseBtn.setImageResource(R.drawable.ic_pause);
-           mediaPlayer.start();
-        }else {
+            mediaPlayer.start();
+        } else {
             mediaPlayer.stop();
             mediaPlayer.release();
-            if(shuffleBoolean && !repeatBoolean){
-                position = getRandomMusic(listSongs.size()-1);
-            }else if (!shuffleBoolean && !repeatBoolean){
-                position = (position - 1) < 0 ? listSongs.size() - 1 : (position -1);
+            if (shuffleBoolean && !repeatBoolean) {
+                position = getRandomMusic(listSongs.size() - 1);
+            } else if (!shuffleBoolean && !repeatBoolean) {
+                position = (position - 1) < 0 ? listSongs.size() - 1 : (position - 1);
             }
             uri = Uri.parse(listSongs.get(position).getPath());
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
@@ -212,9 +214,9 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             mediaPlayer.stop();
             mediaPlayer.release();
             //shuffle & repeat
-            if(shuffleBoolean && !repeatBoolean){
-                position = getRandomMusic(listSongs.size()-1);
-            }else if (!shuffleBoolean && !repeatBoolean){
+            if (shuffleBoolean && !repeatBoolean) {
+                position = getRandomMusic(listSongs.size() - 1);
+            } else if (!shuffleBoolean && !repeatBoolean) {
                 position = (position + 1) % listSongs.size();
             }
 
@@ -242,9 +244,9 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             mediaPlayer.stop();
             mediaPlayer.release();
             //shuffle & repeat
-            if(shuffleBoolean && !repeatBoolean){
-                position = getRandomMusic(listSongs.size()-1);
-            }else if (!shuffleBoolean && !repeatBoolean){
+            if (shuffleBoolean && !repeatBoolean) {
+                position = getRandomMusic(listSongs.size() - 1);
+            } else if (!shuffleBoolean && !repeatBoolean) {
                 position = (position + 1) % listSongs.size();
             }
             position = (position + 1) % listSongs.size();
@@ -288,7 +290,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
     }
 
     //pause
-    private void playPauseBtnClicked()  {
+    private void playPauseBtnClicked() {
         if (mediaPlayer.isPlaying()) {
             playPauseBtn.setImageResource(R.drawable.ic_play);
             mediaPlayer.pause();
@@ -342,11 +344,11 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
     //geting putExtra from Music Adapter
     private void getIntentMethod() {
         position = getIntent().getIntExtra("position", -1);
-        String sender =getIntent().getStringExtra("sender");
-        if(sender != null &&sender.equals("albumDetails")){
-            listSongs= albumFiles;
-        }else {
-            listSongs =musicFiles;
+        String sender = getIntent().getStringExtra("sender");
+        if (sender != null && sender.equals("albumDetails")) {
+            listSongs = albumFiles;
+        } else {
+            listSongs = musicFiles;
         }
 
         if (listSongs != null) {
@@ -372,9 +374,10 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         duration_total = findViewById(R.id.durationTotal);
         seekBar = findViewById(R.id.seekBar);
         playPauseBtn = findViewById(R.id.play_pause);
+
         cover_art = findViewById(R.id.music_art);
         nextBtn = findViewById(R.id.id_next);
-        backBtn = findViewById(R.id.back_btn);
+        // backBtn = findViewById(R.id.back_btn);
         prevBtn = findViewById(R.id.id_prev);
         shuffleBtn = findViewById(R.id.id_shuffle);
         repeatBtn = findViewById(R.id.id_repeat);
@@ -400,15 +403,15 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
     private int getRandomMusic(int i) {
         Random random = new Random();
 
-        return random.nextInt(i+1);
+        return random.nextInt(i + 1);
     }
 
     //implements MediaPlayer.OnCompletionListener -Interface definition for a callback to be invoked when playback of a media source has completed.
     @Override
     public void onCompletion(MediaPlayer mp) {
         nextBtnClicked();
-        if(mediaPlayer!=null){
-            mediaPlayer =MediaPlayer.create(getApplicationContext(), uri);
+        if (mediaPlayer != null) {
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             mediaPlayer.start();
             mediaPlayer.setOnCompletionListener(this);
         }

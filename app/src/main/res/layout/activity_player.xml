@@ -16,6 +16,7 @@
         android:layout_alignParentTop="true"
         android:background="@drawable/gradient_background">
 
+
         <ImageView
             android:id="@+id/back_btn"
             android:layout_width="30dp"
@@ -81,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/card"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/_30sdp"
         android:layout_marginEnd="30dp"
         android:ellipsize="end"
         android:gravity="center_horizontal"
@@ -126,7 +127,7 @@
             android:layout_marginStart="32dp"
             android:padding="5dp"
             android:src="@drawable/ic_shuffle_off"
-            android:tintMode="@color/white"/>
+            app:tint="@color/colorAccent" />
 
         <ImageView
             android:id="@+id/id_prev"
@@ -159,19 +160,18 @@
             android:layout_marginEnd="32dp"
             android:padding="5dp"
             android:src="@drawable/ic_repeat_off"
-            android:tintMode="@color/white"
-            />
+            app:tint="@color/colorAccent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/play_pause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_play"
-            app:backgroundTint="#FFFFFF"
-            app:rippleColor="@color/white" />
+        android:id="@+id/play_pause"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_play"
+        app:backgroundTint="#FFFFFF"
+        app:rippleColor="@color/white" />
 
     </RelativeLayout>
 
@@ -189,6 +189,7 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
+
             android:text="0:0"
             android:textColor="@color/colorAccent" />
 
@@ -209,7 +210,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="@dimen/_10sdp"
             android:thumbTint="@color/white" />
 
     </RelativeLayout>

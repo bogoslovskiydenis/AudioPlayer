@@ -11,4 +11,13 @@
     <color name="colorPrimaryDark">#FF000000</color>
     <color name="colorAccent">#FFFFFFFF</color>
     <color name="colorBlue">#03A9F4</color>
+
+    <!--Colors neumorphism-->
+    <color name="primary">#A3B5BF</color>
+    <color name="background">#EBEBEB</color>
+    <color name="primary_text">#676767</color>
+    <color name="secondary_text">#212121</color>
+    <color name="dark_shadow">#C5c5c5</color>
+    <color name="light_shadow">#ffffff</color>
+
 </resources>
