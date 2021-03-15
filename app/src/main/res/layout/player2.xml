@@ -25,7 +25,6 @@
         android:layout_height="@dimen/_42sdp"
         android:padding="@dimen/_14sdp"
         android:src="@drawable/ic_shuffle_off"
-        android:tint="@color/primary"
         app:neumorph_shadowColorDark="@color/dark_shadow"
         app:neumorph_shadowColorLight="@color/light_shadow"
         app:neumorph_shapeAppearance="@style/NeumorphismImageSmall" />
@@ -75,7 +74,6 @@
         android:layout_height="@dimen/_42sdp"
         android:padding="@dimen/_14sdp"
         android:src="@drawable/ic_repeat_off"
-        android:tint="@color/primary"
         app:neumorph_shadowColorDark="@color/dark_shadow"
         app:neumorph_shadowColorLight="@color/light_shadow"
         app:neumorph_shapeAppearance="@style/NeumorphismImageSmall"
