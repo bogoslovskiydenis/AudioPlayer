@@ -4,14 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/album_items"
     app:cardCornerRadius="10dp"
-    app:cardElevation="10dp"
+    app:cardElevation="@dimen/_20sdp"
     android:layout_margin="10dp"
     android:layout_height="200dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
+        android:background="@color/background"
         android:id="@+id/relative_layout">
         <ImageView
             android:layout_width="match_parent"
@@ -24,13 +24,14 @@
             android:id="@+id/album_name"
             android:layout_alignParentBottom="true"
             android:text="Album"
-            android:textColor="@color/white"
+            android:textColor="@color/secondary_text"
             android:singleLine="true"
             android:gravity="center_horizontal"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
             android:textStyle="bold"/>
+
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -193,7 +193,9 @@
         app:layout_constraintBottom_toTopOf="@+id/song_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/menu" >
+        app:layout_constraintTop_toBottomOf="@+id/menu"
+        app:neumorph_shadowColorDark="@color/dark_shadow"
+        app:neumorph_shadowColorLight="@color/light_shadow">
 
         <ImageView
             android:id="@+id/music_art"
