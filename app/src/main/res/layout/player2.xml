@@ -35,7 +35,7 @@
         android:layout_height="@dimen/_54sdp"
         android:padding="@dimen/_14sdp"
         android:src="@drawable/ic_skip_previous"
-        android:tint="@color/primary"
+
         app:neumorph_shadowColorDark="@color/dark_shadow"
         app:neumorph_shadowColorLight="@color/light_shadow"
         app:neumorph_shapeAppearance="@style/NeumorphismImageSmall"
@@ -47,7 +47,7 @@
         android:layout_height="@dimen/_64sdp"
         android:padding="@dimen/_20sdp"
         android:src="@drawable/ic_play"
-        android:tint="@color/primary"
+
         app:neumorph_shadowColorDark="@color/dark_shadow"
         app:neumorph_shadowColorLight="@color/light_shadow"
         app:neumorph_shapeAppearance="@style/NeumorphismImageLarge"
@@ -62,7 +62,7 @@
         android:layout_height="@dimen/_54sdp"
         android:padding="@dimen/_14sdp"
         android:src="@drawable/ic_skip_next"
-        android:tint="@color/primary"
+
         app:neumorph_shadowColorDark="@color/dark_shadow"
         app:neumorph_shadowColorLight="@color/light_shadow"
         app:neumorph_shapeAppearance="@style/NeumorphismImageSmall"

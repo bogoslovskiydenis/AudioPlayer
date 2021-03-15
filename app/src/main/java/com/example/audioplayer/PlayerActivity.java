@@ -1,20 +1,27 @@
 package com.example.audioplayer;
 
+import android.app.Service;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.audioplayer.action.ActionPlay;
 import com.example.audioplayer.model.MusicFiles;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.audioplayer.service.MusicService;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -26,7 +33,7 @@ import static com.example.audioplayer.MainActivity.repeatBoolean;
 import static com.example.audioplayer.MainActivity.shuffleBoolean;
 import static com.example.audioplayer.adapter.AlbumDetailsAdapter.albumFiles;
 
-public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener {
+public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener, ActionPlay , ServiceConnection {
 
     TextView song_name, artist_name, duration_played, duration_total;
     SeekBar seekBar;
@@ -39,6 +46,8 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
     private final Handler handler = new Handler();
     //play pause Thread
     private Thread playThread, prevThread, nextThread;
+
+    MusicService musicService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,11 +116,19 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
 
     @Override
     protected void onResume() {
+        Intent intent = new Intent(this, MusicService.class);
+        bindService(intent, this, BIND_AUTO_CREATE);
         playThreadBtn();
         nextThreadBtn();
         prevThreadBtn();
 
         super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    unbindService(this);
     }
 
     private void prevThreadBtn() {
@@ -130,7 +147,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         prevThread.start();
     }
 
-    private void prevBtnClicked() {
+    public void prevBtnClicked() {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.release();
@@ -209,7 +226,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
     }
 
 
-    private void nextBtnClicked() {
+    public void nextBtnClicked() {
         if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.release();
@@ -290,7 +307,7 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
     }
 
     //pause
-    private void playPauseBtnClicked() {
+    public void playPauseBtnClicked() {
         if (mediaPlayer.isPlaying()) {
             playPauseBtn.setImageResource(R.drawable.ic_play);
             mediaPlayer.pause();
@@ -415,6 +432,18 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             mediaPlayer.start();
             mediaPlayer.setOnCompletionListener(this);
         }
+    }
+
+    @Override
+    public void onServiceConnected(ComponentName name, IBinder service) {
+        MusicService.MyBinder myBinder = (MusicService.MyBinder) service;
+        musicService = myBinder.getService();
+        Toast.makeText(musicService, "Connected"+ musicService, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onServiceDisconnected(ComponentName name) {
+        musicService = null;
     }
 
 //    public void ImageAnimation(Context context, ImageView imageView, Bitmap bitmap){
