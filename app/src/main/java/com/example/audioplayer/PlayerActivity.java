@@ -33,7 +33,7 @@ import static com.example.audioplayer.MainActivity.repeatBoolean;
 import static com.example.audioplayer.MainActivity.shuffleBoolean;
 import static com.example.audioplayer.adapter.AlbumDetailsAdapter.albumFiles;
 
-public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnCompletionListener, ActionPlay , ServiceConnection {
+public class PlayerActivity extends AppCompatActivity implements  ActionPlay , ServiceConnection {
 
     TextView song_name, artist_name, duration_played, duration_total;
     SeekBar seekBar;
@@ -418,16 +418,11 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         return random.nextInt(i + 1);
     }
 
-    //implements MediaPlayer.OnCompletionListener -Interface definition for a callback to be invoked when playback of a media source has completed.
-    @Override
-    public void onCompletion(MediaPlayer mp) {
-        nextBtnClicked();
-        if (musicService != null) {
-            musicService .createMediaPlayer(position);
-            musicService.start();
-            musicService.onCompleted();
-        }
-    }
+//    //implements MediaPlayer.OnCompletionListener -Interface definition for a callback to be invoked when playback of a media source has completed.
+//    @Override
+//    public void onCompletion(MediaPlayer mp) {
+//
+//    }
 
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
