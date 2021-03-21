@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -54,8 +55,22 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         int myPosition = intent.getIntExtra("servicePosition", -1);
-        if(myPosition != -1){
+        String actionName = intent.getStringExtra("ActionName");
+        if (myPosition != -1) {
             playMedia(myPosition);
+        }
+        if (actionName != null) {
+            switch (actionName) {
+                case "playPause":
+                    Toast.makeText(this, "play", Toast.LENGTH_SHORT).show();
+                    break;
+                case "next":
+                    Toast.makeText(this, "next", Toast.LENGTH_SHORT).show();
+                    break;
+                case "previous":
+                    Toast.makeText(this, "previous", Toast.LENGTH_SHORT).show();
+                    break;
+            }
         }
 
         return START_STICKY;
@@ -67,12 +82,11 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         if (mediaPlayer != null) {
             mediaPlayer.stop();
             mediaPlayer.release();
-            if(musicFiles !=null){
+            if (musicFiles != null) {
                 createMediaPlayer(position);
                 mediaPlayer.start();
             }
-        }
-        else {
+        } else {
             createMediaPlayer(position);
             mediaPlayer.start();
         }
@@ -103,6 +117,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     }
 
     public void createMediaPlayer(int position) {
+
         uri = Uri.parse(musicFiles.get(position).getPath());
         mediaPlayer = MediaPlayer.create(getBaseContext(), uri);
     }
@@ -111,17 +126,20 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         return mediaPlayer.getCurrentPosition();
     }
 
-    public void onCompleted(){
+    public void onCompleted() {
         mediaPlayer.setOnCompletionListener(this);
     }
+
     @Override
     public void onCompletion(MediaPlayer mp) {
-        if(actionPlaying !=null){
+        if (mediaPlayer != null) {
             actionPlaying.nextBtnClicked();
+            if (mediaPlayer != null) {
+                createMediaPlayer(position);
+                mediaPlayer.start();
+                onCompleted();
+            }
         }
-
-        createMediaPlayer(position);
-        mediaPlayer.start();
-        onCompleted();
     }
+
 }

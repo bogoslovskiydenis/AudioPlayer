@@ -189,7 +189,7 @@ public class PlayerActivity extends AppCompatActivity implements  ActionPlay , S
             });
             musicService.onCompleted();
             showNotification(R.drawable.ic_pause);
-            playPauseBtn.setImageResource(R.drawable.ic_pause);
+            playPauseBtn.setBackgroundResource(R.drawable.ic_pause);
             musicService.start();
         } else {
             musicService.stop();
@@ -219,7 +219,7 @@ public class PlayerActivity extends AppCompatActivity implements  ActionPlay , S
 
             musicService.onCompleted();
             showNotification(R.drawable.ic_play);
-            playPauseBtn.setImageResource(R.drawable.ic_play);
+            playPauseBtn.setBackgroundResource(R.drawable.ic_play);
 
         }
     }
@@ -271,7 +271,7 @@ public class PlayerActivity extends AppCompatActivity implements  ActionPlay , S
             });
             musicService.onCompleted();
             showNotification(R.drawable.ic_pause);
-            playPauseBtn.setImageResource(R.drawable.ic_pause);
+            playPauseBtn.setBackgroundResource(R.drawable.ic_pause);
             musicService.start();
         } else {
             musicService.stop();
@@ -303,7 +303,7 @@ public class PlayerActivity extends AppCompatActivity implements  ActionPlay , S
 
             musicService.onCompleted();
             showNotification(R.drawable.ic_play);
-            playPauseBtn.setImageResource(R.drawable.ic_play);
+            playPauseBtn.setBackgroundResource(R.drawable.ic_play);
 
         }
     }
@@ -477,13 +477,13 @@ public class PlayerActivity extends AppCompatActivity implements  ActionPlay , S
         PendingIntent nextPending = PendingIntent.getBroadcast(this ,
                 0 ,nextIntent ,PendingIntent.FLAG_UPDATE_CURRENT);
         //actionplay
-        Intent playIntent = new Intent(this, NotificationReceiver.class).setAction(ACTION_PLAY);
+        Intent pauseIntent = new Intent(this, NotificationReceiver.class).setAction(ACTION_PLAY);
         PendingIntent playPending = PendingIntent.getBroadcast(this ,
-                0 ,playIntent ,PendingIntent.FLAG_UPDATE_CURRENT);
+                0 ,pauseIntent ,PendingIntent.FLAG_UPDATE_CURRENT);
 
 
         byte[] picture = null;
-        picture = getAlbumArt(musicFiles.get(position).getPath());
+        picture = getAlbumArt(listSongs.get(position).getPath());
         Bitmap bitmap = null;
         if (picture !=null){
             bitmap = BitmapFactory.decodeByteArray(picture, 0,picture.length);
@@ -494,10 +494,10 @@ public class PlayerActivity extends AppCompatActivity implements  ActionPlay , S
         Notification  notification = new NotificationCompat.Builder(this, CHANNEL_ID_1)
                 .setSmallIcon(playPauseBtn)
                 .setLargeIcon(bitmap)
-                .setContentTitle(musicFiles.get(position).getTitle())
-                .setContentText(musicFiles.get(position).getArtist())
+                .setContentTitle(listSongs.get(position).getTitle())
+                .setContentText(listSongs.get(position).getArtist())
                 .addAction(R.drawable.ic_skip_previous, "Previous", prevPending)
-                .addAction(playPauseBtn, "PlayPause", playPending)
+                .addAction(playPauseBtn, "Pause", playPending)
                 .addAction(R.drawable.ic_skip_next, "Next", nextPending)
                 .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
                 .setMediaSession(mediaSessionCompat.getSessionToken()))
