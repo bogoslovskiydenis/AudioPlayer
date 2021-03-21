@@ -266,6 +266,7 @@ public class PlayerActivity extends AppCompatActivity implements  ActionPlay , S
 
             showNotification(R.drawable.ic_pause);
             playPauseBtn.setBackgroundResource(R.drawable.ic_pause);
+            musicService.start();
             musicService.onCompleted();
 
         } else {
@@ -298,7 +299,7 @@ public class PlayerActivity extends AppCompatActivity implements  ActionPlay , S
 
             showNotification(R.drawable.ic_play);
             playPauseBtn.setBackgroundResource(R.drawable.ic_play);
-
+            musicService.start();
             musicService.onCompleted();
 
         }
