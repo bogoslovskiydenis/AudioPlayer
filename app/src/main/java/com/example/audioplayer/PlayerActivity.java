@@ -164,11 +164,7 @@ public class PlayerActivity extends AppCompatActivity implements  ActionPlay , S
             musicService.stop();
             musicService.release();
             //shuffle & repeat
-            if (shuffleBoolean && !repeatBoolean) {
-                position = getRandomMusic(listSongs.size() - 1);
-            } else if (!shuffleBoolean && !repeatBoolean) {
-                position = (position - 1) < 0 ? listSongs.size() - 1 : (position - 1);
-            }
+            position = (position - 1) < 0 ? listSongs.size() - 1 : (position - 1);
 
             uri = Uri.parse(listSongs.get(position).getPath());
             musicService.createMediaPlayer(position);
@@ -182,7 +178,7 @@ public class PlayerActivity extends AppCompatActivity implements  ActionPlay , S
                     if (musicService != null) {
                         int mCurrentPosition = musicService.getCurrentPosition() / 1000;
                         seekBar.setProgress(mCurrentPosition);
-                        duration_played.setText(formatTime(mCurrentPosition));
+
                     }
                     handler.postDelayed(this, 1000);
                 }
@@ -191,14 +187,12 @@ public class PlayerActivity extends AppCompatActivity implements  ActionPlay , S
             showNotification(R.drawable.ic_pause);
             playPauseBtn.setBackgroundResource(R.drawable.ic_pause);
             musicService.start();
+            musicService.onCompleted();
         } else {
             musicService.stop();
             musicService.release();
-            if (shuffleBoolean && !repeatBoolean) {
-                position = getRandomMusic(listSongs.size() - 1);
-            } else if (!shuffleBoolean && !repeatBoolean) {
-                position = (position - 1) < 0 ? listSongs.size() - 1 : (position - 1);
-            }
+            position = (position - 1) < 0 ? listSongs.size() - 1 : (position - 1);
+
             uri = Uri.parse(listSongs.get(position).getPath());
             musicService.createMediaPlayer(position);
             metaData(uri);
@@ -211,16 +205,16 @@ public class PlayerActivity extends AppCompatActivity implements  ActionPlay , S
                     if (musicService != null) {
                         int mCurrentPosition = musicService.getCurrentPosition() / 1000;
                         seekBar.setProgress(mCurrentPosition);
-                        duration_played.setText(formatTime(mCurrentPosition));
+
                     }
                     handler.postDelayed(this, 1000);
                 }
             });
 
-            musicService.onCompleted();
+
             showNotification(R.drawable.ic_play);
             playPauseBtn.setBackgroundResource(R.drawable.ic_play);
-
+            musicService.onCompleted();
         }
     }
 
@@ -269,10 +263,11 @@ public class PlayerActivity extends AppCompatActivity implements  ActionPlay , S
                     handler.postDelayed(this, 1000);
                 }
             });
-            musicService.onCompleted();
+
             showNotification(R.drawable.ic_pause);
             playPauseBtn.setBackgroundResource(R.drawable.ic_pause);
-            musicService.start();
+            musicService.onCompleted();
+
         } else {
             musicService.stop();
             musicService.release();
@@ -301,9 +296,10 @@ public class PlayerActivity extends AppCompatActivity implements  ActionPlay , S
                 }
             });
 
-            musicService.onCompleted();
             showNotification(R.drawable.ic_play);
             playPauseBtn.setBackgroundResource(R.drawable.ic_play);
+
+            musicService.onCompleted();
 
         }
     }
@@ -447,15 +443,17 @@ public class PlayerActivity extends AppCompatActivity implements  ActionPlay , S
     public void onServiceConnected(ComponentName name, IBinder service) {
         MusicService.MyBinder myBinder = (MusicService.MyBinder) service;
         musicService = myBinder.getService();
+        musicService.setCallBack(this);
         Toast.makeText(musicService, "Connected"+ musicService, Toast.LENGTH_SHORT).show();
+
+        //seekbar
+        seekBar.setMax(musicService.getDuration() / 1000);
+        metaData(uri);
         //получаем имя песни
         song_name.setText(listSongs.get(position).getTitle());
         //имя исполнителя
         artist_name.setText(listSongs.get(position).getArtist());
         musicService.onCompleted();
-        //seekbar
-        seekBar.setMax(musicService.getDuration() / 1000);
-        metaData(uri);
     }
 
     @Override
@@ -553,4 +551,6 @@ public class PlayerActivity extends AppCompatActivity implements  ActionPlay , S
 //        imageView.startAnimation(animationOut);
 //    }
     }
+
+
 }

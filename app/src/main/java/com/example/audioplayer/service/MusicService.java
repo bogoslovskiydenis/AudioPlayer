@@ -21,11 +21,11 @@ import static com.example.audioplayer.PlayerActivity.listSongs;
 
 public class MusicService extends Service implements MediaPlayer.OnCompletionListener {
 
-    MyBinder myBinder = new MyBinder();
+    IBinder mBinder = new MyBinder();
     MediaPlayer mediaPlayer;
     ArrayList<MusicFiles> musicFiles = new ArrayList<>();
     Uri uri;
-    int position = 0;
+    int position = -1;
     ActionPlay actionPlaying;
 
     @Override
@@ -38,7 +38,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     @Override
     public IBinder onBind(Intent intent) {
         Log.e("Bind", "Method");
-        return myBinder;
+        return mBinder;
     }
 
     public void pause() {
@@ -63,12 +63,21 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
             switch (actionName) {
                 case "playPause":
                     Toast.makeText(this, "play", Toast.LENGTH_SHORT).show();
+                    if(actionPlaying !=null){
+                        actionPlaying.playPauseBtnClicked();
+                    }
                     break;
                 case "next":
                     Toast.makeText(this, "next", Toast.LENGTH_SHORT).show();
+                    if(actionName !=null){
+                        actionPlaying.nextBtnClicked();
+                    }
                     break;
                 case "previous":
                     Toast.makeText(this, "previous", Toast.LENGTH_SHORT).show();
+                    if(actionName !=null) {
+                        actionPlaying.prevBtnClicked();
+                    }
                     break;
             }
         }
@@ -116,8 +125,8 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         mediaPlayer.seekTo(position);
     }
 
-    public void createMediaPlayer(int position) {
-
+    public void createMediaPlayer(int positionInner) {
+        position = positionInner;
         uri = Uri.parse(musicFiles.get(position).getPath());
         mediaPlayer = MediaPlayer.create(getBaseContext(), uri);
     }
@@ -132,14 +141,16 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        if (mediaPlayer != null) {
+        if (musicFiles != null) {
             actionPlaying.nextBtnClicked();
-            if (mediaPlayer != null) {
-                createMediaPlayer(position);
-                mediaPlayer.start();
-                onCompleted();
-            }
+           if(mediaPlayer !=null){
+               createMediaPlayer(position);
+               mediaPlayer.start();
+               onCompleted();
+           }
         }
     }
-
+    public void setCallBack(ActionPlay actionPlaying){
+        this.actionPlaying  = actionPlaying;
+    }
 }
