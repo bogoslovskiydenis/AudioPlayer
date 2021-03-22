@@ -278,7 +278,7 @@ public class PlayerActivity extends AppCompatActivity implements  ActionPlay , S
             } else if (!shuffleBoolean && !repeatBoolean) {
                 position = (position + 1) % listSongs.size();
             }
-            position = (position + 1) % listSongs.size();
+
             uri = Uri.parse(listSongs.get(position).getPath());
             musicService.createMediaPlayer(position);
             metaData(uri);
@@ -297,10 +297,8 @@ public class PlayerActivity extends AppCompatActivity implements  ActionPlay , S
                 }
             });
 
-            showNotification(R.drawable.ic_play);
-            playPauseBtn.setBackgroundResource(R.drawable.ic_play);
-            musicService.start();
-            musicService.onCompleted();
+            showNotification(R.drawable.ic_pause);
+            playPauseBtn.setBackgroundResource(R.drawable.ic_pause);
 
         }
     }

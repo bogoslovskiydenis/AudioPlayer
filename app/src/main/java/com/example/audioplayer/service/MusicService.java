@@ -25,7 +25,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     MediaPlayer mediaPlayer;
     ArrayList<MusicFiles> musicFiles = new ArrayList<>();
     Uri uri;
-    int position = -1;
+    int position = 0;
     ActionPlay actionPlaying;
 
     @Override
