@@ -2,5 +2,5 @@
 
 Android project
 
-![album fragment](https://github.com/bogoslovskiydenis/AudioPlayer/blob/main/.idea/images/AlbumsFragment.jpg?raw=true=250x)
+![album fragment](https://github.com/bogoslovskiydenis/AudioPlayer/blob/main/.idea/images/AlbumsFragment.jpg?raw=true){width=50%}
 
