@@ -8,7 +8,7 @@ The service can be used to play both local media files and streaming media from 
 
 Librares
 
-    //glide https://github.com/bumptech/glide
+    //[glide] (https://github.com/bumptech/glide)
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     //neumorphism
