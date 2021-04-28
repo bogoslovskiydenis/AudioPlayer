@@ -2,5 +2,5 @@
 
 Android project
 
-![album fragment] (/.idea/images/AlbumsFragment)
+![album fragment] (https://github.com/bogoslovskiydenis/AudioPlayer/tree/main/.idea/images/AlbumsFragment.jpg)
 
