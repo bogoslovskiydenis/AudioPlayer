@@ -8,15 +8,16 @@ The service can be used to play both local media files and streaming media from 
 
 Librares
 
-    //[glide] (https://github.com/bumptech/glide)
+    //glide https://github.com/bumptech/glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
-    //neumorphism
+    
+    //neumorphism https://github.com/fornewid/neumorphism
     implementation 'com.github.fornewid:neumorphism:0.3.0'
 
     //Scalable size
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'com.intuit.ssp:ssp-android:1.0.6'
 
-    //Rounded image view
+    //Rounded image view https://github.com/vinc3m1/RoundedImageView
     implementation 'com.makeramen:roundedimageview:2.3.0'
