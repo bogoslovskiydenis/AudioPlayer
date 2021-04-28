@@ -7,6 +7,7 @@ The service can be used to play both local media files and streaming media from 
 ![album fragment](https://github.com/bogoslovskiydenis/AudioPlayer/blob/main/AlbumsFragment.jpg)  ![song fragment](https://github.com/bogoslovskiydenis/AudioPlayer/blob/main/SongFragment.jpg)     ![play fragment](https://github.com/bogoslovskiydenis/AudioPlayer/blob/main/PlayMusicFragment.jpg)
 
 Used libraries
+
     //glide https://github.com/bumptech/glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
