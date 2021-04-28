@@ -2,4 +2,8 @@
 
 Android project
 
-![markdown logo] (https://github.com/bogoslovskiydenis/AudioPlayer/tree/main/.idea/images/AlbumsFragment.jpg) ![] (/images/PlayMusicFragment.jpg) ![] (/images/SongFragment.jpg)
+![album fragment] (https://github.com/bogoslovskiydenis/AudioPlayer/tree/main/.idea/images/AlbumsFragment)
+
+
+![] (/images/PlayMusicFragment.jpg)
+![] (/images/SongFragment.jpg)
