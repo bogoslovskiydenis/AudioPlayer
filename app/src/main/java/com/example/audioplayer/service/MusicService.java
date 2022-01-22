@@ -1,22 +1,26 @@
 package com.example.audioplayer.service;
 
+import static com.example.audioplayer.PlayerActivity.listSongs;
+
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
+import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.example.audioplayer.action.ActionPlay;
+import com.example.audioplayer.action.Actions;
 import com.example.audioplayer.model.MusicFiles;
+import com.example.audioplayer.notification.NotificationUi;
+import com.example.audioplayer.utils.BytesFromUri;
+import com.example.audioplayer.utils.FormatTimeUi;
 
 import java.util.ArrayList;
-
-import static com.example.audioplayer.PlayerActivity.listSongs;
 
 
 public class MusicService extends Service implements MediaPlayer.OnCompletionListener {
@@ -24,27 +28,30 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     IBinder mBinder = new MyBinder();
     MediaPlayer mediaPlayer;
     ArrayList<MusicFiles> musicFiles = new ArrayList<>();
-    Uri uri;
     int position = 0;
     ActionPlay actionPlaying;
+    MediaSessionCompat mediaSessionCompat;
+    private final BytesFromUri bytesFromUri = new BytesFromUri.Base();
+    public NotificationUi notificationUi;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        mediaSessionCompat =new MediaSessionCompat(getBaseContext(), "My Audio");
+        notificationUi = new NotificationUi.Base(this, mediaSessionCompat, bytesFromUri);
 
     }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        Log.e("Bind", "Method");
+        Log.d("Bind", "Method");
         return mBinder;
     }
 
     public void pause() {
         mediaPlayer.pause();
     }
-
 
     public class MyBinder extends Binder {
         public MusicService getService() {
@@ -60,28 +67,24 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
             playMedia(myPosition);
         }
         if (actionName != null) {
-            switch (actionName) {
-                case "playPause":
-                    Toast.makeText(this, "play", Toast.LENGTH_SHORT).show();
-                    if(actionPlaying !=null){
-                        actionPlaying.playPauseBtnClicked();
+            Actions.Previous previous = new Actions.Previous();
+            if (previous.compare(actionName)) {
+                previous.showToast(this);
+                previous.act(actionPlaying);
+            } else {
+                Actions.Play play = new Actions.Play();
+                if (play.compare(actionName)) {
+                    play.showToast(this);
+                    play.act(actionPlaying);
+                } else {
+                    Actions.Next next = new Actions.Next();
+                    if (next.compare(actionName)) {
+                        next.showToast(this);
+                        next.act(actionPlaying);
                     }
-                    break;
-                case "next":
-                    Toast.makeText(this, "next", Toast.LENGTH_SHORT).show();
-                    if(actionName !=null){
-                        actionPlaying.nextBtnClicked();
-                    }
-                    break;
-                case "previous":
-                    Toast.makeText(this, "previous", Toast.LENGTH_SHORT).show();
-                    if(actionName !=null) {
-                        actionPlaying.prevBtnClicked();
-                    }
-                    break;
+                }
             }
         }
-
         return START_STICKY;
     }
 
@@ -101,33 +104,16 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         }
     }
 
-    public void start() {
-        mediaPlayer.start();
-    }
-
-    public boolean isPlaying() {
-        return mediaPlayer.isPlaying();
-    }
-
-    public void stop() {
-        mediaPlayer.stop();
-    }
-
-    public void release() {
-        mediaPlayer.release();
-    }
-
-    public int getDuration() {
-        return mediaPlayer.getDuration();
-    }
-
-    public void seek(int position) {
-        mediaPlayer.seekTo(position);
-    }
+    public void start() { mediaPlayer.start(); }
+    public boolean isPlaying() { return mediaPlayer.isPlaying(); }
+    public void stop() { mediaPlayer.stop(); }
+    public void release() { mediaPlayer.release(); }
+    public int getDuration() { return mediaPlayer.getDuration(); }
+    public void seek(int position) { mediaPlayer.seekTo(position); }
 
     public void createMediaPlayer(int positionInner) {
         position = positionInner;
-        uri = Uri.parse(musicFiles.get(position).getPath());
+        Uri uri = Uri.parse(musicFiles.get(position).getPath());
         mediaPlayer = MediaPlayer.create(getBaseContext(), uri);
     }
 
@@ -141,16 +127,17 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        if (musicFiles != null) {
+        if (mediaPlayer != null) {
             actionPlaying.nextBtnClicked();
-           if(mediaPlayer !=null){
-               createMediaPlayer(position);
-               mediaPlayer.start();
-               onCompleted();
-           }
+            if (mediaPlayer != null) {
+                createMediaPlayer(position);
+                mediaPlayer.start();
+                onCompleted();
+            }
         }
     }
-    public void setCallBack(ActionPlay actionPlaying){
-        this.actionPlaying  = actionPlaying;
+
+    public void setCallBack(ActionPlay actionPlaying) {
+        this.actionPlaying = actionPlaying;
     }
 }

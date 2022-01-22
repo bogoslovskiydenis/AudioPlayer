@@ -1,13 +1,10 @@
 package com.example.audioplayer;
 
+import static com.example.audioplayer.adapter.MusicAdapter.getAllAudio;
+
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,15 +20,14 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
-import static com.example.audioplayer.adapter.MusicAdapter.getAllAudio;
-
 public class MainActivity extends AppCompatActivity {
 
     public static final int REQUEST_CODE = 1;
-   public static ArrayList<MusicFiles> musicFiles;
-   static boolean shuffleBoolean = false ;
-   static boolean repeatBoolean = false;
-   public static ArrayList<MusicFiles>albums=new ArrayList<>();
+    public static ArrayList<MusicFiles> musicFiles;
+    static boolean shuffleBoolean = false;
+    static boolean repeatBoolean = false;
+    public static ArrayList<MusicFiles> albums = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,5 +72,4 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
-
 }

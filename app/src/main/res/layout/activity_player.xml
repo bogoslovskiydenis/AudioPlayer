@@ -163,15 +163,15 @@
             app:tint="@color/colorAccent" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/play_pause"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:clickable="true"
-        android:focusable="true"
-        android:src="@drawable/ic_play"
-        app:backgroundTint="#FFFFFF"
-        app:rippleColor="@color/white" />
+            android:id="@+id/play_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_play"
+            app:backgroundTint="#FFFFFF"
+            app:rippleColor="@color/white" />
 
     </RelativeLayout>
 

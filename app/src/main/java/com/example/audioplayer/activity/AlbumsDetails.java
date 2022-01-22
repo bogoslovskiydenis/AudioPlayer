@@ -1,4 +1,4 @@
-package com.example.audioplayer.fragments;
+package com.example.audioplayer.activity;
 
 import android.media.MediaMetadataRetriever;
 import android.os.Bundle;
@@ -17,18 +17,14 @@ import static com.example.audioplayer.MainActivity.musicFiles;
 
 public class AlbumsDetails extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-    ImageView albumPhoto;
-    String albumName;
     ArrayList<MusicFiles> albumsSongs = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_albums_details);
-        recyclerView = findViewById(R.id.recyclerView);
-        albumPhoto = findViewById(R.id.albumPhoto);
-        albumName = getIntent().getStringExtra("albumName");
+        ImageView   albumPhoto = findViewById(R.id.albumPhoto);
+        String  albumName = getIntent().getStringExtra("albumName");
         int j = 0;
         for (int i = 0; i < musicFiles.size(); i++) {
             if (albumName.equals(musicFiles.get(i).getAlbum())) {

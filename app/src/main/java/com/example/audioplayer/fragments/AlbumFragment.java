@@ -2,6 +2,8 @@ package com.example.audioplayer.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,31 +16,30 @@ import com.example.audioplayer.R;
 import com.example.audioplayer.adapter.AlbumAdapter;
 
 import static com.example.audioplayer.MainActivity.albums;
-import static com.example.audioplayer.MainActivity.musicFiles;
-
 
 public class AlbumFragment extends Fragment {
-
-    RecyclerView recyclerView;
-    AlbumAdapter albumAdapter;
 
     public AlbumFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_album, container, false);
+    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_album, container, false);
-        recyclerView = view.findViewById(R.id.recyclerView);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
 
-        if(!(albums.size() <1)){
-            albumAdapter = new AlbumAdapter(getContext(), albums);
+        if (albums.size() > 0) {
+            AlbumAdapter albumAdapter = new AlbumAdapter(albums);
             recyclerView.setAdapter(albumAdapter);
-            recyclerView.setLayoutManager(new GridLayoutManager(getContext(),2 ));
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         }
-        return view;
     }
 }

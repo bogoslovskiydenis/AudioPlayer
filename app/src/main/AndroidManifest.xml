@@ -16,7 +16,6 @@
         android:supportsRtl="true"
         android:name=".aplication.ApplicationClass"
         android:theme="@style/Theme.AudioPlayer">
-        <activity android:name=".adapter.AlbumsDetails" android:theme="@style/FullScreen"/>
         <activity android:name=".PlayerActivity" android:theme="@style/FullScreen"/>
         <activity android:name=".MainActivity" android:theme="@style/FullScreen">
             <intent-filter>

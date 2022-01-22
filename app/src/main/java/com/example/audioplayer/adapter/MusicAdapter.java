@@ -3,7 +3,6 @@ package com.example.audioplayer.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -20,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.example.audioplayer.PlayerActivity;
 import com.example.audioplayer.R;
 import com.example.audioplayer.model.MusicFiles;
+import com.example.audioplayer.utils.BytesFromUri;
 
 import java.util.ArrayList;
 
@@ -27,41 +27,34 @@ import static com.example.audioplayer.MainActivity.albums;
 
 public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder>{
 
-    private final Context musicContext;
     private final ArrayList<MusicFiles> musicFiles;
+    private final BytesFromUri bytesFromUri = new BytesFromUri.Base();
 
-    public MusicAdapter(Context musicContext, ArrayList<MusicFiles> musicFiles){
-        this.musicContext = musicContext;
+
+    public MusicAdapter( ArrayList<MusicFiles> musicFiles){
         this.musicFiles = musicFiles;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(musicContext).inflate(R.layout.menu_items, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_items, parent, false);
         return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.file_name.setText(musicFiles.get(position).getTitle());
-        byte [] image = getAlbumArt(musicFiles.get(position).getPath());
-        if (image != null){
-            Glide.with(musicContext).asBitmap().load(image).into(holder.album_art);
+        byte [] image = bytesFromUri.albumArt(musicFiles.get(position).getPath());
+        if (image == null) {
+            Glide.with(holder.album_art.getContext()).load(R.drawable.eminem_kamikaze).into(holder.album_art);       //Если нет то берем картинку
+        } else {
+            Glide.with(holder.album_art.getContext()).asBitmap().load(image).into(holder.album_art);
         }
-        else {
-            Glide.with(musicContext).load(R.drawable.eminem_kamikaze).into(holder.album_art);       //Если нет то берем картинку
-        }
-
-        //при нажатии показывает PlayerActivity
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(musicContext , PlayerActivity.class);
-                intent.putExtra("position", position);
-                musicContext.startActivity(intent);
-
-            }
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(holder.itemView.getContext() , PlayerActivity.class);
+            intent.putExtra("position", position);
+            holder.itemView.getContext().startActivity(intent);
         });
     }
 
@@ -69,7 +62,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
     public int getItemCount() {
         return musicFiles.size();
     }
-
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
@@ -93,7 +85,6 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
                 MediaStore.Audio.Media.DURATION,
                 MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media.ARTIST
-
         };
 
         Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
@@ -104,10 +95,8 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
                 String duration = cursor.getString(2);
                 String path = cursor.getString(3);
                 String artist = cursor.getString(4);
-
                 MusicFiles musicFiles = new MusicFiles(path, title, artist, album, duration);
 
-                //log
                 Log.e("PATH:" + path, "Albums:" + album);
                 audioList.add(musicFiles);
                 if(!duplicate.contains(album)) {
@@ -118,15 +107,5 @@ public class MusicAdapter extends RecyclerView.Adapter<MusicAdapter.MyViewHolder
             cursor.close();
         }
         return audioList;
-
-    }
-
-    //gel art from album
-    private byte [] getAlbumArt (String uri){
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-        retriever.setDataSource(uri);
-        byte [] art = retriever.getEmbeddedPicture();
-        retriever.release();
-        return art;
     }
 }
