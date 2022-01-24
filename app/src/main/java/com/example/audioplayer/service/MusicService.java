@@ -63,21 +63,21 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     public int onStartCommand(Intent intent, int flags, int startId) {
         int myPosition = intent.getIntExtra("servicePosition", -1);
         String actionName = intent.getStringExtra("ActionName");
+        Actions.Previous previous = new Actions.Previous();
+        Actions.Play play = new Actions.Play();
+        Actions.Next next = new Actions.Next();
         if (myPosition != -1) {
             playMedia(myPosition);
         }
         if (actionName != null) {
-            Actions.Previous previous = new Actions.Previous();
             if (previous.compare(actionName)) {
                 previous.showToast(this);
-                previous.act(actionPlaying);
+                play.act(actionPlaying);
             } else {
-                Actions.Play play = new Actions.Play();
                 if (play.compare(actionName)) {
                     play.showToast(this);
                     play.act(actionPlaying);
                 } else {
-                    Actions.Next next = new Actions.Next();
                     if (next.compare(actionName)) {
                         next.showToast(this);
                         next.act(actionPlaying);

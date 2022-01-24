@@ -52,13 +52,13 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlay, Ser
     private final BytesFromUri bytesFromUri = new BytesFromUri.Base();
     private NotificationUi notificationUi;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setFulScreen();
         setContentView(R.layout.player2);
        // getSupportActionBar().hide();
-        notificationUi = new NotificationUi.Base(this, mediaSessionCompat, bytesFromUri);
         initViews();
         getIntentMethod();
         seekBar.setOnSeekBarChangeListener(new SimpleSeekBarChangeListener() {
@@ -140,8 +140,8 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlay, Ser
                 }
             }, 1000);
             musicService.onCompleted();
-            musicService.notificationUi.show(position);
-           // notificationUi.show(position);
+         //   musicService.notificationUi.show(position);
+//            notificationUi.show(position);
             playPauseBtn.setBackgroundResource(R.drawable.ic_pause);
             musicService.start();
             musicService.onCompleted();
@@ -197,7 +197,7 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlay, Ser
                 }
             }, 1000);
            // notificationUi.show(position);
-            musicService.notificationUi.show(position);
+        //    musicService.notificationUi.show(position);
             playPauseBtn.setBackgroundResource(R.drawable.ic_pause);
             musicService.onCompleted();
             musicService.start();
@@ -235,7 +235,7 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlay, Ser
     public void playPauseBtnClicked() {
         if (musicService.isPlaying()) {
             playPauseBtn.setImageResource(R.drawable.ic_play);
-            notificationUi.show(position);
+//            notificationUi.show(position);
             musicService.pause();
             seekBar.setMax(musicService.getDuration() / 1000);
             handler.postDelayed(() -> {
@@ -268,6 +268,7 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlay, Ser
     }
 
     private void getIntentMethod() {
+
         position = getIntent().getIntExtra("position", -1);
         String sender = getIntent().getStringExtra("sender");
         listSongs = "albumDetails".equals(sender) ? albumFiles : musicFiles;
@@ -276,7 +277,7 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlay, Ser
             playPauseBtn.setImageResource(R.drawable.ic_pause);
             uri = Uri.parse(listSongs.get(position).getPath());
         }
-        notificationUi.show(position);
+        //notificationUi.show(position);
         Intent intent = new Intent(this, MusicService.class);
         intent.putExtra("servicePosition", position);
         startService(intent);
@@ -327,6 +328,7 @@ public class PlayerActivity extends AppCompatActivity implements ActionPlay, Ser
         seekBar.setMax(musicService.getDuration() / 1000);
         metaData(uri);
         musicService.onCompleted();
+       // musicService.notificationUi.;
     }
 
     @Override

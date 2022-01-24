@@ -48,8 +48,8 @@ interface NotificationUi {
                 context,
                 0, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT
             )
-            val picture: ByteArray = bytesFromUri.albumArt(PlayerActivity.listSongs[position].path)
-            val bitmap: Bitmap = BitmapFactory.decodeByteArray(picture, 0, picture.size)
+            val picture: ByteArray? = bytesFromUri.albumArt(PlayerActivity.listSongs[position].path)
+            val bitmap: Bitmap? = BitmapFactory.decodeByteArray(picture, 0, picture!!.size)
             var builder: NotificationCompat.Builder =
                 NotificationCompat.Builder(context, ApplicationClass.CHANNEL_ID_1)
                     .setSmallIcon(R.drawable.ic_play)
